@@ -1,0 +1,45 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.drusys_card.field_drusys_html_text
+    - field.field.paragraph.drusys_card.field_drusys_link
+    - field.field.paragraph.drusys_card.field_drusys_media
+    - paragraphs.paragraphs_type.drusys_card
+  module:
+    - link
+    - text
+id: paragraph.drusys_card.default
+targetEntityType: paragraph
+bundle: drusys_card
+mode: default
+content:
+  field_drusys_html_text:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_drusys_link:
+    weight: 2
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_drusys_media:
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: drusys
+      link: false
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+hidden: {  }

@@ -1,0 +1,70 @@
+/*
+ * @file
+ * Utilities.
+ */
+
+/* Layout Align */
+.ds-top-left {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start!important;
+  align-items: flex-start!important;
+}
+.ds-top-center {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center!important;
+  align-items: flex-start!important;
+}
+.ds-top-right {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end!important;
+  align-items: flex-start!important;
+}
+.ds-middle-left {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start!important;
+  align-items: center!important;
+}
+.ds-middle-center {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center!important;
+  align-items: center!important;
+}
+.ds-middle-right {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end!important;
+  align-items: center!important;
+}
+.ds-bottom-left {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start!important;
+  align-items: flex-end!important;
+}
+.ds-bottom-center {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center!important;
+  align-items: flex-end!important;
+}
+.ds-bottom-right {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end!important;
+  align-items: flex-end!important;
+}
+/* End Layout align */

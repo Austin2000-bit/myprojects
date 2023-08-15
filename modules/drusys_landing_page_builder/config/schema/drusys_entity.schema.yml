@@ -1,0 +1,15 @@
+drusys_landing_page_builder.ds_row_presets.*:
+  type: config_entity
+  label: 'Row presets'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    layout:
+      type: string
+      label: 'Layout'      
+    uuid:
+      type: string

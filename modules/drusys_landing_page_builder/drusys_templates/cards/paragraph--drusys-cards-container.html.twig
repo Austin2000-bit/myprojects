@@ -1,0 +1,8 @@
+{% block paragraph %}  
+  <div id="{{ds_css_id}}" class="ds-item ds-lpb-cards {{card_parent}} {{card_preset}}">
+  	<div class="ds-lpb-cards-styles" style="{{padding}}{{margin}}">
+	  	<div class="card-intro">{{ content.field_drusys_html_text }}</div>
+	  	<div class="card-items row">{{ content.field_drusys_components }}</div>
+	  </div>	
+  </div>
+{% endblock paragraph %}

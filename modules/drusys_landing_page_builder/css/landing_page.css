@@ -1,0 +1,54 @@
+/*
+ * @file
+ * Subtheme specific CSS.
+ */
+
+/* Start Page */
+.ds-show-title .block-page-title-block {
+  display: block;
+}
+.ds-hide-title .block-page-title-block {
+  display: none;
+}
+/* Start Page */
+
+/* Start Row */
+.container {
+  height: 100%;
+}
+.ds-overlay {
+  padding: 0 !important;
+}
+.ds-lpb-row .container > .row {
+  height: 100%;
+}
+.card-img-overlay.ds-parallax {
+  position: unset;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.ds-parallax .container > .row {
+  min-height: 50vh;
+}
+/* End Row */
+
+/* Start Cards */
+.ds-lpb-row .row-card-alter,
+.ds-lpb-row .card-alter {
+  border: unset;
+  background-color: unset;
+}
+.card-intro {
+  padding: 2rem 0;
+}
+.ds-lpb-card.horizontal {
+  padding: 1rem;
+}
+.verticle .card-inner {
+  padding: 1rem;
+}
+.horizontal .card-inner {
+  padding: 0 1rem;
+}
+/* End Cards */

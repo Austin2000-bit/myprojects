@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_drusys_css
+    - paragraphs.paragraphs_type.drusys_wrapper
+id: paragraph.drusys_wrapper.field_drusys_css
+field_name: field_drusys_css
+entity_type: paragraph
+bundle: drusys_wrapper
+label: 'Wrapper css classes'
+description: 'These css identifier will help when creating slider with multiple row''s as slide.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

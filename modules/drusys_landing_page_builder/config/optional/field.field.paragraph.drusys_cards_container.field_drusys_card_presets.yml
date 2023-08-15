@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_drusys_card_presets
+    - paragraphs.paragraphs_type.drusys_cards_container
+id: paragraph.drusys_cards_container.field_drusys_card_presets
+field_name: field_drusys_card_presets
+entity_type: paragraph
+bundle: drusys_cards_container
+label: 'Card Presets'
+description: "<a target=\"_blank\" href=\"/admin/structure/ds-lpb/card/add\"> Create new card preset</a>\r\n<a target=\"_blank\" href=\"/admin/structure/ds-lpb/card\"> View card presets</a>"
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:ds_card_presets'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference

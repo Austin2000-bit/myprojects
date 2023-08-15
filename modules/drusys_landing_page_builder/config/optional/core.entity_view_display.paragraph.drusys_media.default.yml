@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.drusys_media.field_drusys_image_styles
+    - field.field.paragraph.drusys_media.field_drusys_media
+    - paragraphs.paragraphs_type.drusys_media
+id: paragraph.drusys_media.default
+targetEntityType: paragraph
+bundle: drusys_media
+mode: default
+content:
+  field_drusys_image_styles:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_drusys_media:
+    type: entity_reference_entity_view
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: drusys
+      link: false
+    third_party_settings: {  }
+    region: content
+hidden: {  }

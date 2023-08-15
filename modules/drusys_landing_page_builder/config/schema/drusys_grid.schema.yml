@@ -1,0 +1,12 @@
+drusys_landing_page_builder.ds_card_presets.*:
+  type: config_entity
+  label: 'Grid config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string

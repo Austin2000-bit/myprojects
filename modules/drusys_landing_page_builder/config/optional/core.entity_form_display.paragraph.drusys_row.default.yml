@@ -1,0 +1,63 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.drusys_row.field_drusys_components
+    - field.field.paragraph.drusys_row.field_drusys_media
+    - field.field.paragraph.drusys_row.field_drusys_media_2
+    - field.field.paragraph.drusys_row.field_drusys_row_presets
+    - paragraphs.paragraphs_type.drusys_row
+  module:
+    - media_library
+    - paragraphs
+id: paragraph.drusys_row.default
+targetEntityType: paragraph
+bundle: drusys_row
+mode: default
+content:
+  field_drusys_components:
+    type: paragraphs
+    weight: 3
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: button
+      form_display_mode: default
+      default_paragraph_type: _none
+      features:
+        add_above: '0'
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+    region: content
+  field_drusys_media:
+    weight: 1
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+    type: media_library_widget
+    region: content
+  field_drusys_media_2:
+    type: media_library_widget
+    weight: 2
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+    region: content
+  field_drusys_row_presets:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: 'Search your template'
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

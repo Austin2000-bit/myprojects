@@ -1,0 +1,26 @@
+.layout-region.layout-region-node-main {
+  width: 100%;
+}
+
+.layout-region-node-main,
+.layout-region-node-secondary,
+.layout-region-node-footer {
+  float: unset;
+  width: unset;
+}
+.seven-details__wrapper {
+  padding: 0px 5px !important;
+}
+.paragraphs-nested th {
+  display: none;
+}
+.horizontal-tabs-panes .horizontal-tabs-pane {
+  padding: 0;
+}
+a.tabledrag-handle .handle {
+  width: 10px;
+}
+.js .field--widget-paragraphs .draggable .tabledrag-handle {
+  min-width: 25px;
+  padding: 0;
+}

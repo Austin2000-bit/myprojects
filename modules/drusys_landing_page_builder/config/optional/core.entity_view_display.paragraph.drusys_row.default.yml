@@ -1,0 +1,52 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.drusys_row.field_drusys_components
+    - field.field.paragraph.drusys_row.field_drusys_media
+    - field.field.paragraph.drusys_row.field_drusys_media_2
+    - field.field.paragraph.drusys_row.field_drusys_row_presets
+    - paragraphs.paragraphs_type.drusys_row
+  module:
+    - entity_reference_revisions
+id: paragraph.drusys_row.default
+targetEntityType: paragraph
+bundle: drusys_row
+mode: default
+content:
+  field_drusys_components:
+    type: entity_reference_revisions_entity_view
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_drusys_media:
+    weight: 2
+    label: hidden
+    settings:
+      link: true
+      view_mode: default
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+  field_drusys_media_2:
+    type: entity_reference_entity_view
+    weight: 3
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_drusys_row_presets:
+    weight: 0
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+hidden: {  }

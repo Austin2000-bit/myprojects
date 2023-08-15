@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.drusys_html_text.field_drusys_html_text
+    - paragraphs.paragraphs_type.drusys_html_text
+  module:
+    - text
+id: paragraph.drusys_html_text.default
+targetEntityType: paragraph
+bundle: drusys_html_text
+mode: default
+content:
+  field_drusys_html_text:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden: {  }

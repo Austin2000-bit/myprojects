@@ -1,0 +1,41 @@
+{% block paragraph %}
+  <div id="{{ds_css_id}}" class="ds-item ds-lpb-row {{row_preset}}">
+    <div class="ds-lpb-styles {{css_classes.row}}" style="{{bg_color}}{{padding}}{{margin}}">
+      <div class="card row-card-alter">
+
+        {% if small_img_url is not null %}
+          <img class="card-img img-responsive {{bg_img_visibility.small}}" src="{{small_img_url}}" alt="bg image">
+        {% endif %}      
+        {% if large_img_url is not null %}
+          <img class="card-img img-responsive {{bg_img_visibility.large}}" src="{{large_img_url}}" alt="bg image">
+        {% endif %}    
+
+        {% if small_img_url is not null or large_img_url is not null or parallax is not null %}
+          <div class="card-img-overlay ds-overlay {{parallax}}" style="{{overlay_color}}">
+        {% endif %}  
+
+        <div class="{{ds_container}}">
+          <div class="row {{ds_alignment}}">
+            {% for key, css_class in column_classes %}
+              {% if loop.length == 1 %}
+                <div class="ds-column ds-column-1 {{css_classes.column_1}} {{css_class}} flex-column">
+                  {{ content.field_drusys_components }}
+                </div>
+              {% else %}
+                {% set iteration = key+1 %}
+                <div class="ds-column ds-column-{{iteration}} {{ attribute(css_classes, 'column_'~iteration) }}  {{css_class}}">
+                  {{ content.field_drusys_components[key] }}
+                </div>
+              {% endif %}
+            {% endfor %}         
+          </div>
+        </div>  
+        
+        {% if small_img_url is not null or large_img_url is not null %}
+          </div>
+        {% endif %}
+
+      </div>  
+    </div>
+  </div>
+{% endblock paragraph %}

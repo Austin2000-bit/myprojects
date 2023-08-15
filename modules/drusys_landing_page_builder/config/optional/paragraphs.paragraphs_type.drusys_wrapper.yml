@@ -1,0 +1,12 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - drusys_landing_page_builder
+id: drusys_wrapper
+label: Wrapper
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

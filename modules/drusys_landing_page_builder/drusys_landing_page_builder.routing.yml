@@ -1,0 +1,9 @@
+ds_lpb.settings_form:
+  path: '/admin/structure/ds-lpb/settings'
+  defaults:
+    _form: '\Drupal\drusys_landing_page_builder\Form\SettingsForm'
+    _title: 'Settings - Landing Page Builder'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE

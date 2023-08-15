@@ -1,0 +1,7 @@
+.form-radios .js-form-type-radio {
+  display: inline-block;
+  width: 30%;
+}
+.color-picker {
+  height: 30px !important;
+}

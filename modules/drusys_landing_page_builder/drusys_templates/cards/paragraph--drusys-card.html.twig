@@ -1,0 +1,55 @@
+{% block paragraph %}
+  
+    <div id="{{ds_css_id}}" class="ds-lpb-card {{grid_columns}} {{card_class}} {{card_common_css}} {{orientation}}">
+      <div class="ds-lpb-card-styles" style="{{bg_color}}">
+        {% if content.field_drusys_link[0]['#url'] %}
+          <a href="{{ content.field_drusys_link[0]['#url'] }}">
+        {% endif %}        
+          {% if orientation == 'horizontal' %}
+            {# Horizontal cards #}
+            <div class="row no-gutters">
+              <div class="{{horizontal_size.img}}">
+                {% if img_url is not null %}
+                  <img class="card-img-top img-responsive" src="{{img_url}}" alt="bg image">
+                {% endif %} 
+              </div>
+              <div class="{{horizontal_size.txt}}">
+                <div class="card-inner">              
+                  {{ content.field_drusys_html_text }}
+                </div>
+              </div>
+            </div>  
+          {% else %}  
+            {# Verticle cards #}
+            <div class="card card-alter">
+
+              {% if img_url is not null %}
+                <img class="card-img-top img-responsive" src="{{img_url}}" alt="bg image">
+                {% if overlay_color is not null %}              
+                  <div class="card-img-overlay card-body ds-overlay" style="{{overlay_color}}">
+                {% endif %} 
+              {% endif %} 
+
+              {% set card_inner = content.field_drusys_html_text|render %}
+              {% if card_inner %}
+                <div class="card-inner">              
+                  {{ card_inner }}
+                </div>
+              {% endif %} 
+
+              {% if img_url is not null %}   
+                {% if overlay_color is not null %}              
+                  </div>
+                {% endif %} 
+              {% endif %}  
+
+            </div>
+          {% endif %}
+        {% if content.field_drusys_link[0]['#url'] %}
+          </a>
+        {% endif %} 
+
+      </div>
+    </div>
+
+{% endblock paragraph %}

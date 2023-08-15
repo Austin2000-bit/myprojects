@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.drusys_media.field_drusys_image_styles
+    - field.field.paragraph.drusys_media.field_drusys_media
+    - paragraphs.paragraphs_type.drusys_media
+  module:
+    - media_library
+id: paragraph.drusys_media.default
+targetEntityType: paragraph
+bundle: drusys_media
+mode: default
+content:
+  field_drusys_image_styles:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_drusys_media:
+    type: media_library_widget
+    weight: 0
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  status: true

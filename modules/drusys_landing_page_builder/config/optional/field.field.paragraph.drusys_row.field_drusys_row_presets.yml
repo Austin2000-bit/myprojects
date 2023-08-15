@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_drusys_row_presets
+    - paragraphs.paragraphs_type.drusys_row
+id: paragraph.drusys_row.field_drusys_row_presets
+field_name: field_drusys_row_presets
+entity_type: paragraph
+bundle: drusys_row
+label: 'Row Presets'
+description: "<a target=\"_blank\" href=\"/admin/structure/ds-lpb/row/add\"> Create new row preset</a>\r\n<a target=\"_blank\" href=\"/admin/structure/ds-lpb/row\"> View row presets</a>"
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:ds_row_presets'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference

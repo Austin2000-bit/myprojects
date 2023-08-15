@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions.
+ */
+
+/**
+ * Rebuild routes.
+ */
+function drusys_landing_page_builder_install() {
+  // Rebuilding the route cache.
+  \Drupal::service("router.builder")->rebuild();
+}
+
+/**
+ * Rebuild routes.
+ */
+function drusys_landing_page_builder_uninstall() {
+  // Rebuilding the route cache.
+  \Drupal::service("router.builder")->rebuild();
+  \Drupal::configFactory()->getEditable('ds_lpb.settings')->delete();
+}

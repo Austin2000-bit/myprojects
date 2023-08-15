@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - drusys_landing_page_builder
+    - paragraphs
+id: paragraph.field_drusys_row_presets
+field_name: field_drusys_row_presets
+entity_type: paragraph
+type: entity_reference
+settings:
+  target_type: ds_row_presets
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_drusys_html_text
+    - paragraphs.paragraphs_type.drusys_card
+  module:
+    - text
+id: paragraph.drusys_card.field_drusys_html_text
+field_name: field_drusys_html_text
+entity_type: paragraph
+bundle: drusys_card
+label: Text
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

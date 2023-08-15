@@ -1,0 +1,514 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming for drusys_landing_page_builder.
+ */
+
+use Drupal\Core\Entity\EntityFormInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\file\Entity\File;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_theme_suggestions_page_alter().
+ */
+function drusys_landing_page_builder_theme_suggestions_page_alter(array &$suggestions, array $variables, $hook) {
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+    if (is_object($node)) {
+      $content_type = $node->bundle();
+      $suggestions[] = 'page__' . $content_type;
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function drusys_landing_page_builder_preprocess_page(&$variables) {
+  if (isset($variables['node'])) {
+    $node = $variables['node'];
+    if ($node instanceof NodeInterface) {
+      $type = $node->getType();
+      if ($type == 'ds_landing_page_builder') {
+        $variables['ds_title_display'] = 'ds-hide-title';
+        $title = $node->field_ds_page_title->getValue();
+        if (isset($title[0]['value']) && $title[0]['value'] == '1') {
+          $variables['ds_title_display'] = 'ds-show-title';
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function drusys_landing_page_builder_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if (strpos($form_id, "ds_row_presets_") !== FALSE || strpos($form_id, "ds_card_presets_") !== FALSE) {
+    $form['#attached']['library'][] = 'drusys_landing_page_builder/admin_styles_config';
+    $form['#attached']['library'][] = 'drusys_landing_page_builder/minicolors';
+  }
+  $formObject = $form_state->getFormObject();
+  if ($formObject instanceof EntityFormInterface) {
+    $entity = $formObject->getEntity();
+    if ($entity->getEntityTypeId() === 'node' && $entity->bundle() == 'ds_landing_page_builder') {
+      $form['#attached']['library'][] = 'drusys_landing_page_builder/admin_styles';
+    }
+  }
+}
+
+/**
+ * Hook_preprocess_paragraph().
+ */
+function drusys_landing_page_builder_preprocess_paragraph(&$variables) {
+  $paragraph = $variables['paragraph'];
+  $bundle = $paragraph->bundle();
+  $p_type = $paragraph->getParagraphType()->id();
+  $label_convert = str_replace(['drusys', '_'], ['ds', '-'], $p_type);
+  $variables['ds_css_id'] = $label_convert . "-" . $paragraph->id();
+
+  // Include libraries.
+  if ($bundle == 'drusys_row' || $bundle == 'drusys_wrapper') {
+    $variables['#attached']['library'][] = 'drusys_landing_page_builder/landing_page';
+    $settings = \Drupal::config('ds_lpb.settings')->get('libraries');
+    if ($settings['slick'] !== 0) {
+      $variables['#attached']['library'][] = 'drusys_landing_page_builder/slick';
+    }
+    if ($settings['wow_animate'] !== 0) {
+      $variables['#attached']['library'][] = 'drusys_landing_page_builder/wow_animate';
+    }
+    if ($settings['bootstrap'] !== 0) {
+      $variables['#attached']['library'][] = 'drusys_landing_page_builder/bootstrap';
+    }
+  }
+
+  // ROW CONFIGURATION.
+  $variables['column_classes'] = [0 => 'column_classes'];
+  $variables['ds_container'] = 'container';
+  if ($bundle == 'drusys_row' && isset($paragraph->get('field_drusys_row_presets')->getValue()[0]['target_id'])) {
+    // Get configuration presets.
+    $preset = $paragraph->get('field_drusys_row_presets')->getValue()[0]['target_id'];
+    $preset_load = \Drupal::entityTypeManager()->getStorage('ds_row_presets')->load($preset);
+    if ($preset_load) {
+      $css_styles = $preset_load->get('css_styles');
+      $layout_list = $preset_load->get('layouts');
+
+      // Preset name.
+      $variables['row_preset'] = 'row-preset-' . str_replace('_', '-', $preset);
+
+      // Alignemnt.
+      if (isset($layout_list['alignment'])) {
+        $variables['ds_alignment'] = 'ds-' . str_replace('_', '-', $layout_list['alignment']);
+      }
+
+      // Container - full width.
+      if (isset($layout_list['full_width']) && $layout_list['full_width'][1] == 1) {
+        $variables['ds_container'] = 'container-fluid';
+      }
+      // Background image - large.
+      if (isset($variables['content']['field_drusys_media']['0']['#media'])) {
+        $media = $variables['content']['field_drusys_media']['0']['#media'];
+        if (isset($media->field_media_image)) {
+          $fid = $media->field_media_image->target_id;
+          $file = File::load($fid);
+          $img_uri = $file->getFileUri();
+          if ($layout_list['large_image_style'] == 'none') {
+            $variables['large_img_url'] = file_url_transform_relative(file_create_url($img_uri));
+          }
+          else {
+            $variables['large_img_url'] = ImageStyle::load($image_style)->buildUrl($img_uri);
+          }
+        }
+      }
+      // Background image - small.
+      if (isset($variables['content']['field_drusys_media_2']['0']['#media'])) {
+        $media = $variables['content']['field_drusys_media_2']['0']['#media'];
+        if (isset($media->field_media_image)) {
+          $fid = $media->field_media_image->target_id;
+          $file = File::load($fid);
+          $img_uri = $file->getFileUri();
+          if ($layout_list['small_image_style'] == 'none') {
+            $variables['small_img_url'] = file_url_transform_relative(file_create_url($img_uri));
+          }
+          else {
+            $variables['small_img_url'] = ImageStyle::load($image_style)->buildUrl($img_uri);
+          }
+          $variables['bg_img_visibility'] = ds_bg_img_visibility($layout_list['small_image_visibility']);
+        }
+      }
+
+      // Colors.
+      $colors = $preset_load->get('colors');
+      $variables['bg_color'] = '';
+      if (!empty($colors['background_color'])) {
+        $variables['bg_color'] = "background: " . $colors['background_color'] . ";";
+      }
+      if (!empty($colors['background_gradients'])) {
+        $variables['bg_color'] = "background: " . $colors['background_gradients'] . ";";
+      }
+      if (!empty($colors['overlay_color'])) {
+        $variables['overlay_color'] = "background: " . $colors['overlay_color'] . ";";
+      }
+      if (!empty($colors['overlay_gradients'])) {
+        $variables['overlay_color'] = "background: " . $colors['overlay_gradients'] . ";";
+      }
+
+      // Padding.
+      if (!empty($css_styles['row_padding'])) {
+        $variables['padding'] = "padding: " . $css_styles['row_padding'] . ";";
+      }
+      // Margin.
+      if (!empty($css_styles['row_margin'])) {
+        $variables['margin'] = "margin: " . $css_styles['row_margin'] . ";";
+      }
+      // Parallax.
+      if (isset($variables['large_img_url']) && isset($css_styles['parallax']) && $css_styles['parallax'][1] == 1) {
+        $variables['parallax'] = 'ds-parallax';
+        $variables['overlay_color'] = "background-image: url(" . $variables['large_img_url'] . ");";
+        if (!empty($colors['overlay_color'])) {
+          $overlay_color = $colors['overlay_color'];
+          $variables['overlay_color'] = "background-image: linear-gradient(0deg, $overlay_color 0%, $overlay_color 100%), url(" . $variables['large_img_url'] . ");";
+        }
+        if (!empty($colors['overlay_gradients'])) {
+          $variables['overlay_color'] = "background-image: " . $colors['overlay_gradients'] . ", url(" . $variables['large_img_url'] . ");";
+        }
+        unset($variables['large_img_url']);
+        unset($variables['small_img_url']);
+      }
+      // Css classes.
+      $variables['css_classes'] = $preset_load->get('css_classes');
+
+      // Extract column classes.
+      $column_count = 1;
+      foreach ($layout_list as $layout_width => $columns) {
+        $width_list = ["width_992", "width_768", "width_576", "width_0"];
+        if (in_array($layout_width, $width_list) && $columns != 'none') {
+          $layout_classes = get_layout_class($layout_width, $columns, $column_count);
+          foreach ($layout_classes as $key => $value) {
+            if (isset($column_classes[$key])) {
+              $column_classes[$key] = $value . ' ' . $column_classes[$key];
+            }
+            else {
+              $column_classes[$key] = $value;
+            }
+          }
+          if (count($column_classes) > 1) {
+            $column_count = count($column_classes);
+          }
+        }
+        if ($layout_width == 'image_style') {
+          $image_style = $columns;
+        }
+      }
+      $variables['column_classes'] = $column_classes;
+    }
+  }
+
+  // CARDS CONFIGURATION.
+  if ($bundle == 'drusys_cards_container') {
+    if (isset($paragraph->get('field_drusys_card_presets')->getValue()[0]['target_id'])) {
+      $preset = $paragraph->get('field_drusys_card_presets')->getValue()[0]['target_id'];
+      $preset_load = \Drupal::entityTypeManager()->getStorage('ds_card_presets')->load($preset);
+      if ($preset_load) {
+        // Preset name.
+        $variables['card_preset'] = 'card-preset-' . str_replace('_', '-', $preset);
+        $css_classes = $preset_load->get('css_classes');
+        $variables['card_parent'] = $css_classes['card_parent'];
+        $css_styles = $preset_load->get('css_styles');
+        // Padding.
+        if (!empty($css_styles['card_padding'])) {
+          $variables['padding'] = "padding: " . $css_styles['card_padding'] . ";";
+        }
+        // Margin.
+        if (!empty($css_styles['card_margin'])) {
+          $variables['margin'] = "margin: " . $css_styles['card_margin'] . ";";
+        }
+      }
+    }
+  }
+  // CARD CONFIGURATION.
+  if ($bundle == 'drusys_card') {
+    if (isset($paragraph->getParentEntity()->get('field_drusys_card_presets')->getValue()[0]['target_id'])) {
+
+      // Get configuration presets.
+      $preset = $paragraph->getParentEntity()->get('field_drusys_card_presets')->getValue()[0]['target_id'];
+      $preset_load = \Drupal::entityTypeManager()->getStorage('ds_card_presets')->load($preset);
+      if ($preset_load) {
+
+        $css_styles = $preset_load->get('css_styles');
+        $layout_list = $preset_load->get('layouts');
+        if (!isset($layout_list['slick']) || (isset($layout_list['slick']) && $layout_list['slick'] == 0)) {
+          // Responsive grid classes.
+          $grid_classes = get_grid_layout_class('width_0', $layout_list['width_0']);
+          $grid_classes = $grid_classes . ' ' . get_grid_layout_class('width_576', $layout_list['width_576']);
+          $grid_classes = $grid_classes . ' ' . get_grid_layout_class('width_768', $layout_list['width_768']);
+          $grid_classes = $grid_classes . ' ' . get_grid_layout_class('width_992', $layout_list['width_992']);
+          $variables['grid_columns'] = $grid_classes;
+        }
+
+        // Horizontal calculation.
+        $variables['orientation'] = $layout_list['card_orientation'];
+        $variables['horizontal_size'] = ['img' => 'col-12', 'txt' => 'col-12'];
+        if ($layout_list['card_orientation'] == 'horizontal') {
+          $variables['horizontal_size'] = get_horizontal_image_size($layout_list['horizontal_image_size']);
+        }
+
+        // Colors.
+        $colors = $preset_load->get('colors');
+        $variables['bg_color'] = '';
+        if (!empty($colors['background_color'])) {
+          $variables['bg_color'] = "background: " . $colors['background_color'] . ";";
+        }
+        if (!empty($colors['background_gradients'])) {
+          $variables['bg_color'] = "background: " . $colors['background_gradients'] . ";";
+        }
+        if (!empty($colors['overlay_color'])) {
+          $variables['overlay_color'] = "background: " . $colors['overlay_color'] . ";";
+        }
+        if (!empty($colors['overlay_gradients'])) {
+          $variables['overlay_color'] = "background: " . $colors['overlay_gradients'] . ";";
+        }
+        // Css classes.
+        $css_classes = $preset_load->get('css_classes');
+        if (!empty($css_classes['card_common_css'])) {
+          $variables['card_common_css'] = $css_classes['card_common_css'];
+        }
+        $pid = $paragraph->id();
+        $childs_list = $paragraph->getParentEntity()->get('field_drusys_components')->getValue();
+        foreach ($childs_list as $c_key => $c_value) {
+          if ($c_value['target_id'] == $pid) {
+            $current_class_no = $c_key + 1;
+            break;
+          }
+        }
+        if (isset($css_classes['card_css_fieldset']['card_no'][$current_class_no])) {
+          $variables['card_class'] = $css_classes['card_css_fieldset']['card_no'][$current_class_no];
+        }
+
+        // Card image size.
+        $image_style = $layout_list['image_style'];
+        if (isset($variables['content']['field_drusys_media']['0']['#media'])) {
+          $media = $variables['content']['field_drusys_media']['0']['#media'];
+          if (isset($media->field_media_image)) {
+            $fid = $media->field_media_image->target_id;
+            $file = File::load($fid);
+            $img_uri = $variables['img_uri'] = $file->getFileUri();
+            if ($image_style == 'none') {
+              $variables['img_url'] = file_url_transform_relative(file_create_url($img_uri));
+            }
+            else {
+              $variables['img_url'] = ImageStyle::load($image_style)->buildUrl($img_uri);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // MEDIA CONFIGURATION.
+  if ($bundle == 'drusys_media') {
+    // Image styles.
+    if (isset($variables['content']['field_drusys_media']['0']['#media'])) {
+      $media = $variables['content']['field_drusys_media']['0']['#media'];
+      if (isset($media->field_media_image)) {
+        $fid = $media->field_media_image->target_id;
+        $file = File::load($fid);
+        $img_uri = $variables['img_uri'] = $file->getFileUri();
+      }
+      if (isset($paragraph->get('field_drusys_image_styles')->getValue()[0]['target_id'])) {
+        $image_style = $paragraph->get('field_drusys_image_styles')->getValue()[0]['target_id'];
+        $variables['img_url'] = ImageStyle::load($image_style)->buildUrl($img_uri);
+      }
+      else {
+        $variables['img_url'] = file_url_transform_relative(file_create_url($img_uri));
+      }
+    }
+  }
+
+  // WRAPPER CONFIGURATION.
+  if ($bundle == 'drusys_wrapper') {
+    if (isset($variables['content']['field_drusys_css'][0]['#context']['value'])) {
+      $variables['wrapper_css'] = $variables['content']['field_drusys_css'][0]['#context']['value'];
+    }
+  }
+
+}
+
+/**
+ * Hook_theme_suggestions_alter().
+ */
+function drusys_landing_page_builder_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
+  // Custom field template for landing page builder.
+  if ($hook == 'field') {
+    $landing_paragraphs = [
+      'drusys_row',
+      'drusys_html_text',
+      'drusys_media',
+      'drusys_card',
+      'drusys_cards_container',
+      'drusys_wrapper',
+      'drusys_webform',
+      'drusys_reference',
+    ];
+    if ($variables['element']['#entity_type'] == 'paragraph' && in_array($variables['element']['#bundle'], $landing_paragraphs) || $variables['element']['#bundle'] == 'ds_landing_page_builder') {
+      $suggestions[] = 'field__ds_common_field';
+    }
+  }
+}
+
+/**
+ * Layout classes for row.
+ */
+function get_layout_class($layout_width, $columns, $column_count) {
+  $classes = [];
+  switch ($layout_width) {
+    case 'width_992':
+      $size = '-lg-';
+      break;
+
+    case 'width_768':
+      $size = '-md-';
+      break;
+
+    case 'width_576':
+      $size = '-sm-';
+      break;
+
+    case 'width_0':
+      $size = '-';
+      break;
+  }
+  switch ($columns) {
+    case '25':
+      $classes = [0 => 'col' . $size . '3'];
+      break;
+
+    case '33':
+      $classes = [0 => 'col' . $size . '4'];
+      break;
+
+    case '50':
+      $classes = [0 => 'col' . $size . '6'];
+      break;
+
+    case '66':
+      $classes = [0 => 'col' . $size . '8'];
+      break;
+
+    case '75':
+      $classes = [0 => 'col' . $size . '9'];
+      break;
+
+    case '50_50':
+      $classes = [0 => 'col' . $size . '6', 1 => 'col' . $size . '6'];
+      break;
+
+    case '33_66':
+      $classes = [0 => 'col' . $size . '4', 1 => 'col' . $size . '8'];
+      break;
+
+    case '66_33':
+      $classes = [0 => 'col' . $size . '8', 1 => 'col' . $size . '4'];
+      break;
+
+    case '25_75':
+      $classes = [0 => 'col' . $size . '3', 1 => 'col' . $size . '9'];
+      break;
+
+    case '75_25':
+      $classes = [0 => 'col' . $size . '9', 1 => 'col' . $size . '3'];
+      break;
+
+    case '33_33_33':
+      $classes = [
+        0 => 'col' . $size . '4',
+        1 => 'col' . $size . '4',
+        2 => 'col' . $size . '4',
+      ];
+      break;
+
+    case '100':
+      for ($i = 0; $i < $column_count; $i++) {
+        $classes[$i] = 'col' . $size . '12';
+      }
+      break;
+  }
+  return $classes;
+
+}
+
+/**
+ * Layout classes for grid.
+ */
+function get_grid_layout_class($layout_width = 'width_0', $columns = '') {
+  $classes = '';
+  switch ($layout_width) {
+    case 'width_992':
+      $size = '-lg-';
+      break;
+
+    case 'width_768':
+      $size = '-md-';
+      break;
+
+    case 'width_576':
+      $size = '-sm-';
+      break;
+
+    case 'width_0':
+      $size = '-';
+      break;
+  }
+  if ($columns == 'col') {
+    $columns = '';
+  }
+  $classes = rtrim('col' . $size . $columns, '-');
+  return $classes;
+}
+
+/**
+ * Layout classes for grid.
+ */
+function get_horizontal_image_size($layout_width) {
+  $classes = '';
+  switch ($layout_width) {
+    case '75':
+      $classes = ['img' => 'col-8', 'txt' => 'col-4'];
+      break;
+
+    case '50':
+      $classes = ['img' => 'col-6', 'txt' => 'col-6'];
+      break;
+
+    case '33':
+      $classes = ['img' => 'col-4', 'txt' => 'col-8'];
+      break;
+
+    default:
+      $classes = ['img' => 'col-3', 'txt' => 'col-9'];
+      break;
+  }
+  return $classes;
+}
+
+/**
+ * Custom function.
+ */
+function ds_bg_img_visibility($visible) {
+  switch ($visible) {
+    case '992':
+      $classes = ['large' => 'd-none d-lg-block', 'small' => 'd-lg-none'];
+      break;
+
+    case '768':
+      $classes = ['large' => 'd-none d-md-block', 'small' => 'd-md-none'];
+      break;
+
+    default:
+      $classes = ['large' => 'd-none d-sm-block', 'small' => 'd-sm-none'];
+      break;
+  }
+  return $classes;
+}

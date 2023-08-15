@@ -1,0 +1,45 @@
+landing_page:
+  version: VERSION
+  css:
+    component:
+      css/landing_page.css: {}
+      css/utilities.css: {}
+  dependencies:
+    - core/jquery  
+admin_styles:
+  css:
+    theme:
+      css/admin_style.css: {}
+admin_styles_config:
+  css:
+    theme:
+      css/admin_styles_config.css: {}
+  js:
+    js/admin_styles_config.js: {}     
+minicolors:
+  css:
+    theme:
+      minicolors/jquery.minicolors.css: {}
+  js:
+    minicolors/jquery.minicolors.min.js: {}
+slick:
+  css:
+    theme:
+      slick/slick.css: {} 
+      slick/slick_theme.css: {}
+      slick/custom_slick.css: {}   
+  js:
+    slick/slick.min.js: {}
+    slick/custom_slick.js: {}    
+wow_animate:
+  css:
+    theme:
+      //cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css: {}
+  js:
+    wow/wow.js: {}
+    wow/wow.min.js: {}
+bootstrap:
+  css:
+    theme:
+      bootstrap/bootstrap-grid.min.css: {}
+      bootstrap/bootstrap-card.css: {}

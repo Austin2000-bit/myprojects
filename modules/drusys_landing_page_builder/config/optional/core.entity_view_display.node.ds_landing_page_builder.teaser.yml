@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.ds_landing_page_builder.field_drusys_components
+    - field.field.node.ds_landing_page_builder.field_ds_page_title
+    - node.type.ds_landing_page_builder
+  module:
+    - user
+id: node.ds_landing_page_builder.teaser
+targetEntityType: node
+bundle: ds_landing_page_builder
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_drusys_components: true
+  field_ds_page_title: true

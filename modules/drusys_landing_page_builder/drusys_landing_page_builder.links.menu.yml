@@ -1,0 +1,30 @@
+entity.ds_row_presets.collection:
+  title: 'Landing Page Builder'
+  route_name: entity.ds_row_presets.collection
+  parent: system.admin_structure
+  weight: -20
+entity.ds_row_presets.row_list:
+  title: 'Row presets'
+  route_name: entity.ds_row_presets.collection
+  parent: entity.ds_row_presets.collection
+  weight: -5  
+entity.ds_row_presets.add_form:
+  title: 'Create row preset'
+  route_name: entity.ds_row_presets.add_form
+  parent: entity.ds_row_presets.row_list
+  weight: -5
+entity.ds_card_presets.collection:
+  title: 'Card presets'
+  route_name: entity.ds_card_presets.collection
+  parent: entity.ds_row_presets.collection
+  weight: -4
+entity.ds_card_presets.add_form:
+  title: 'Create card preset'
+  route_name: entity.ds_card_presets.add_form
+  parent: entity.ds_card_presets.collection
+  weight: -4
+ds_lpb.settings_form:
+  title: 'Settings'
+  route_name: ds_lpb.settings_form
+  parent: entity.ds_row_presets.collection
+  weight: 99

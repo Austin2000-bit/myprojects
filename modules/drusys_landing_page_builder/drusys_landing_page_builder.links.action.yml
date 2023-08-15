@@ -1,0 +1,10 @@
+entity.ds_row_presets.add_form:
+  route_name: entity.ds_row_presets.add_form
+  title: 'Add Row Presets'
+  appears_on:
+    - entity.ds_row_presets.collection
+entity.ds_card_presets.add_form:
+  route_name: entity.ds_card_presets.add_form
+  title: 'Add Card Presets'
+  appears_on:
+    - entity.ds_card_presets.collection

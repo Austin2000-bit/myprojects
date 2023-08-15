@@ -1,0 +1,43 @@
+<div id="page-wrapper" class="{{ds_title_display}} ds-landing-page">
+  <div id="page">
+
+    <header id="header" class="container-fluid" role="banner" aria-label="{{ 'Site header'|t}}">
+      <div class="container">
+        <div class="row align-items-center">
+          {% if page.header %}
+            {{ page.header }}
+          {% endif %}
+        </div>
+      </div>
+    </header>
+
+
+    {# Main #}
+    {% block main %}
+      <div role="main" class="main-container js-quickedit-main-content">
+        <section>
+          {% block content %}
+            <a id="main-content"></a>
+            {{ page.content }}
+          {% endblock %}
+        </section>
+      </div>
+    {% endblock %}
+
+
+    {% block footer %}
+      <div class="footer_wrap container-fluid">
+        {% if page.footer %}
+          <div class="footer1">
+            <div class="container">
+              <div class="row">
+                {{ page.footer_first }}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    {% endblock %}
+    
+  </div>
+</div>

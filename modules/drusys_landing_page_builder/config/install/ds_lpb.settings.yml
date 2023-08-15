@@ -1,0 +1,4 @@
+libraries:
+  slick: slick
+  wow_animate: wow_animate
+  bootstrap: 0

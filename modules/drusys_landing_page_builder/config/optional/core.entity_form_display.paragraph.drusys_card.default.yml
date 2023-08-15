@@ -1,0 +1,43 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.drusys_card.field_drusys_html_text
+    - field.field.paragraph.drusys_card.field_drusys_link
+    - field.field.paragraph.drusys_card.field_drusys_media
+    - paragraphs.paragraphs_type.drusys_card
+  module:
+    - link
+    - media_library
+    - text
+id: paragraph.drusys_card.default
+targetEntityType: paragraph
+bundle: drusys_card
+mode: default
+content:
+  field_drusys_html_text:
+    weight: 0
+    settings:
+      rows: 3
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_drusys_link:
+    weight: 2
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_drusys_media:
+    weight: 1
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+    type: media_library_widget
+    region: content
+hidden:
+  created: true
+  status: true

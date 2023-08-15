@@ -1,0 +1,42 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_drusys_components
+    - paragraphs.paragraphs_type.drusys_card
+    - paragraphs.paragraphs_type.drusys_cards_container
+  module:
+    - entity_reference_revisions
+id: paragraph.drusys_cards_container.field_drusys_components
+field_name: field_drusys_components
+entity_type: paragraph
+bundle: drusys_cards_container
+label: Components
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      drusys_card: drusys_card
+    target_bundles_drag_drop:
+      drusys_card:
+        enabled: true
+        weight: 6
+      drusys_cards_container:
+        weight: 7
+        enabled: false
+      drusys_html_text:
+        weight: 8
+        enabled: false
+      drusys_media:
+        weight: 9
+        enabled: false
+      drusys_row:
+        weight: 10
+        enabled: false
+field_type: entity_reference_revisions

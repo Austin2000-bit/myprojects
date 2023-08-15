@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies: {  }
+id: 3_column_cards_verticle
+label: '3 column cards - Verticle'
+css_styles:
+  card_padding: ''
+  card_margin: ''
+css_classes:
+  card_parent: ''
+  card_common_css: ''
+  card_css_fieldset:
+    card_no:
+      1: ''
+      2: ''
+      3: ''
+    actions: {  }
+layouts:
+  image_style: none
+  card_orientation: verticle
+  slick: 0
+  horizontal_image_size: '33'
+  width_992: '4'
+  width_768: '4'
+  width_576: '4'
+  width_0: '12'
+colors:
+  background_color: ''
+  overlay_color: ''
+  background_gradients: ''
+  overlay_gradients: ''

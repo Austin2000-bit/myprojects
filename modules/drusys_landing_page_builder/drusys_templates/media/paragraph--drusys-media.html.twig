@@ -1,0 +1,9 @@
+{% block paragraph %}
+  <div class="ds-item ds-lpb-media">
+    {% block content %}
+      {% if img_url is not null %}
+        <img class="img-responsive" src="{{img_url}}" alt="bg image">
+      {% endif %} 
+    {% endblock %}
+  </div>
+{% endblock paragraph %}

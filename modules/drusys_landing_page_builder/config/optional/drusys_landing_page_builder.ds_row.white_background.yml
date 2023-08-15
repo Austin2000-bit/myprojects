@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies: {  }
+id: white_background
+label: 'White Background'
+css_styles:
+  row_padding: '2rem 0'
+  row_margin: ''
+  parallax:
+    1: 0
+css_classes:
+  row: ''
+  column_1: ''
+  column_2: ''
+  column_3: ''
+layouts:
+  large_image_style: none
+  small_image_style: none
+  small_image_visibility: '576'
+  full_width:
+    1: 0
+  width_992: '100'
+  width_768: '100'
+  width_576: '100'
+  width_0: '100'
+  alignment: middle_center
+colors:
+  background_color: 'rgba(255, 255, 255, 1)'
+  overlay_color: ''
+  background_gradients: ''
+  overlay_gradients: ''

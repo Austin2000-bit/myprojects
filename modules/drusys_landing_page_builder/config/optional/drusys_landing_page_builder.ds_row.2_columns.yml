@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies: {  }
+id: 2_columns
+label: '2 columns'
+css_styles:
+  row_padding: '2rem 0'
+  row_margin: ''
+  parallax:
+    1: 0
+css_classes:
+  row: ''
+  column_1: ''
+  column_2: ''
+  column_3: ''
+layouts:
+  large_image_style: none
+  small_image_style: none
+  small_image_visibility: '576'
+  full_width:
+    1: 0
+  width_992: '50_50'
+  width_768: '50_50'
+  width_576: '50_50'
+  width_0: '100'
+  alignment: middle_center
+colors:
+  background_color: ''
+  overlay_color: ''
+  background_gradients: ''
+  overlay_gradients: ''

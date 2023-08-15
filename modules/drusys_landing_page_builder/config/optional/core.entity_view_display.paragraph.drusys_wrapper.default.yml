@@ -1,0 +1,32 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.drusys_wrapper.field_drusys_components
+    - field.field.paragraph.drusys_wrapper.field_drusys_css
+    - paragraphs.paragraphs_type.drusys_wrapper
+  module:
+    - entity_reference_revisions
+id: paragraph.drusys_wrapper.default
+targetEntityType: paragraph
+bundle: drusys_wrapper
+mode: default
+content:
+  field_drusys_components:
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+  field_drusys_css:
+    weight: 1
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }
